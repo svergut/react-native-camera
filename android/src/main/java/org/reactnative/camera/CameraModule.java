@@ -436,9 +436,19 @@ public class CameraModule extends ReactContextBaseJavaModule {
                   WritableArray result = Arguments.createArray();
                   if (cameraView.isCameraOpened()) {
                       SortedSet<Size> sizes = cameraView.getAvailablePictureSizes(AspectRatio.parse(ratio));
-                      for (Size size : sizes) {
-                          result.pushString(size.toString());
+
+                      if (sizes != null) {
+                          for (Size size : sizes) {
+                              result.pushString(size.toString());
+                          }
                       }
+                      else {
+                          /*
+                            )))))))))))))
+                          */
+                          result.pushString(new Size(1200, 700).toString());
+                      }
+
                       promise.resolve(result);
                   } else {
                       promise.reject("E_CAMERA_UNAVAILABLE", "Camera is not running");
